@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ringtail UI Extension Test App</title>
+    <script src="node_modules/ringtail-extension-sdk/Ringtail.js" type="text/javascript"></script>
+</head>
+<body>
+    <h2>Active Document</h2>
+    <p>
+        <table>
+            <tr><td>Document ID</td><td class="active-doc-id"></td></tr>
+            <tr><td>Main ID</td><td class="active-main-id"></td></tr>
+            <tr><td>Entity ID</td><td class="active-entity-type-id"></td></tr>
+            <tr><td>Search Result ID</td><td class="active-result-set-id"></td></tr>
+        </table>
+    </p>
+
+    <script>
+        function handleActiveDocumentChanged(message) {
+            document.querySelector('.active-doc-id').innerHTML = message.data.documentId || '';
+            document.querySelector('.active-main-id').innerHTML = message.data.mainId || '';
+            document.querySelector('.active-entity-type-id').innerHTML = message.data.entityId || '';
+            document.querySelector('.active-result-set-id').innerHTML = message.data.searchResultId || '';
+        }
+
+        // Establish communication with Ringtail
+        Ringtail.initialize().then(function () {
+            // Listen for ActiveDocument changes
+            Ringtail.on('ActiveDocument', handleActiveDocumentChanged);
+        });
+    </script>
+</body>
+</html>
